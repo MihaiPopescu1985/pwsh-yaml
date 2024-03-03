@@ -1,0 +1,129 @@
+grammar PIPELINE;
+
+
+INDENTATION
+    :   '  '
+    ;
+
+NEWLINE
+    :   '\r'? '\n'
+    ;
+
+TODO_FIELDS
+    :   NEWLINE? INDENTATION+ '.*' NEWLINE
+    ;
+
+pipeline
+    :   ((pipeline_stages | pipeline_jobs) pipeline_pool pipeline_name? pipeline_append_commit_message_to_run_name? pipeline_trigger pipeline_parameters? pipeline_pr? pipeline_schedules? pipeline_resources? pipeline_variables? pipeline_lock_behavior?)
+    |   (pipeline_extends pipeline_pool pipeline_name? pipeline_append_commit_message_to_run_name? pipeline_trigger pipeline_parameters? pipeline_pr? pipeline_resources? pipeline_variables? pipeline_lock_behavior?)
+    |   (pipeline_steps pipeline_strategy? pipeline_continue_on_error? pipeline_pool pipeline_container? pipeline_services? pipeline_workspace? pipeline_name? pipeline_append_commit_message_to_run_name? pipeline_trigger pipeline_parameters? pipeline_pr? pipeline_schedules? pipeline_resources? pipeline_variables? pipeline_lock_behavior?)
+    ;
+
+pipeline_stages
+    :   'stages:' NEWLINE (stages_stage | stages_template)+
+    ;
+
+stages_stage
+    :   INDENTATION '- stage:' stage_name NEWLINE TODO_FIELDS+
+    ;
+
+stage_name
+    :   '[a-z][a-z]+(_[a-z])*'
+    ;
+
+stages_template
+    :   INDENTATION '- template: ' stage_template_name NEWLINE stage_template_parameters
+    ;
+
+stage_template_name
+    :   '[a-z]+(_[a-z])*.yml'
+    ;
+
+stage_template_parameters
+    :   INDENTATION '  parameters: ' NEWLINE TODO_FIELDS
+    ;
+
+pipeline_jobs
+    :   TODO_FIELDS+
+    ;
+pipeline_pool
+    :   TODO_FIELDS+
+    ;
+pipeline_name
+    :   TODO_FIELDS+
+    ;
+pipeline_append_commit_message_to_run_name
+    :   TODO_FIELDS+
+    ;
+pipeline_trigger
+    :   TODO_FIELDS+
+    ;
+pipeline_parameters
+    :   TODO_FIELDS+
+    ;
+pipeline_pr
+    :   TODO_FIELDS+
+    ;
+pipeline_schedules
+    :   TODO_FIELDS+
+    ;
+pipeline_resources
+    :   TODO_FIELDS+
+    ;
+pipeline_variables
+    :   TODO_FIELDS+
+    ;
+pipeline_lock_behavior
+    :   TODO_FIELDS+
+    ;
+pipeline_extends
+    :   TODO_FIELDS+
+    ;
+pipeline_steps
+    :   TODO_FIELDS+
+    ;
+pipeline_strategy
+    :   TODO_FIELDS+
+    ;
+pipeline_continue_on_error
+    :   TODO_FIELDS+
+    ;
+pipeline_container
+    :   TODO_FIELDS+
+    ;
+pipeline_services
+    :   TODO_FIELDS+
+    ;
+pipeline_workspace
+    :   TODO_FIELDS+
+    ;
+    
+/*
+lock_behavior
+    :   INDENTATION '  lockBehavior: ' ('runLatest' | 'sequential') NEWLINE
+    ;
+
+extends
+    :   'extends:' NEWLINE '  template: ' template_name NEWLINE '  parameters: ' stage_parameters
+    ;
+
+pipeline_jobs
+    :   'jobs: ' (pipeline_job | deployment | pipeline_job_template)
+    ;
+
+stages
+    :   'stages:' NEWLINE (stage | stage_template)+
+    ;
+
+stage
+    :   INDENTATION '- stage:' stage_name NEWLINE display_name? pool? depends_on? condition? variables? jobs lock_behavior? template_context?
+    ;
+
+stage_template
+    :   INDENTATION '- template: ' template_name NEWLINE INDENTATION 'parameters: ' NEWLINE stage_template_parameters
+    ;
+
+template_name
+    :   [a-z]+ ('_'[a-z])* '.yml' '@[a-z]+'?
+    ;
+*/
